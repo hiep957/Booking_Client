@@ -45,7 +45,7 @@ const SignIn = ()=>{
                 Email
                 <input type="email"
                         className="border rounded w-full py-1 px-2 font-normal" 
-                        {...register("email", { required: "This field is required" })}/>
+                        {...register("email", { required: "This field is required1" })}/>
                 {errors.email && (
                     <span className="text-red-500">{errors.email.message}</span>
                 )}
