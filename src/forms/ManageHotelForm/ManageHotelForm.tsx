@@ -1,6 +1,9 @@
 import { FormProvider, useForm } from "react-hook-form";
 import DetailsSection from "./DetailsSection";
 import TypeSection from "./TypeSection";
+import FacilitiesSection from "./FactciliticesSection";
+import GuestsSection from "./GuestsSection";
+import ImagesSection from "./ImagesSection";
 
 
 
@@ -27,6 +30,9 @@ const ManageHotelForm = ()=>{
             <form className="flex flex-col gap-10">
                 <DetailsSection></DetailsSection>
                 <TypeSection></TypeSection>
+                <FacilitiesSection></FacilitiesSection>
+                <GuestsSection></GuestsSection>
+                <ImagesSection></ImagesSection>
             </form>
         </FormProvider>
 
