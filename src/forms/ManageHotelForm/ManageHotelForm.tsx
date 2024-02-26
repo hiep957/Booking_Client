@@ -6,7 +6,7 @@ import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
 import { useEffect } from "react";
 import FacilitiesSection from "./FaciliticesSection";
-import { HotelType } from "../../../../Booking_Server/src/models/hotel";
+import { HotelType } from "../../../../Booking_Server/src/shared/types";
 
 export type HotelFormData = {
   name: string;
@@ -37,7 +37,7 @@ const ManageHotelForm = ({ onSave, isLoading,hotel }: Props) => {
     reset(hotel);
   }, [hotel, reset]);
 
-  const onSubmit = handleSubmit((formDataJson: HotelFormData) => {
+  const onSubmit = handleSubmit( (formDataJson: HotelFormData) => {
     const formData = new FormData();
     // f (hotel) {
     //   formData.append("hotelId", hotel._id);
@@ -70,6 +70,7 @@ const ManageHotelForm = ({ onSave, isLoading,hotel }: Props) => {
     });
 
     onSave(formData);
+   
   });
 
   return (
