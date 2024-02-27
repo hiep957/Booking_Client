@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useSearchContext } from "../contexts/SearchContext";
 import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router-dom";
 function SearchBar() {
+    const navigate = useNavigate();
   const search = useSearchContext();
   const [destination, setDestination] = useState<string>(search.destination);
   const [checkIn, setCheckIn] = useState<Date>(search.checkIn);
@@ -11,11 +13,25 @@ function SearchBar() {
   const [adultCount, setAdultCount] = useState<number>(search.adultCount);
   const [childCount, setChildCount] = useState<number>(search.childCount);
 
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    search.saveSearchValues(
+      destination,
+      checkIn,
+      checkOut,
+      adultCount,
+      childCount
+    );
+    navigate("/search");
+  };
+
   const minDate = new Date();
   const maxDate = new Date();
   maxDate.setFullYear(maxDate.getFullYear() + 1);
   return (
-    <form className="-mt-8 p-3 bg-orange-400 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 items-center gap-4">
+    <form  
+        onSubmit={handleSubmit}
+        className="-mt-8 p-3 bg-orange-400 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 items-center gap-4">
       <div className="flex flex-row items-center flex-1 bg-white p-2">
         <MdTravelExplore size={20} className="mr-2" />
         <input
