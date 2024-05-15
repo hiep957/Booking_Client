@@ -1,7 +1,19 @@
 import { RegisterFormData } from "./pages/Register";
 import { SignInFormData } from "./pages/SignIn";
-import {HotelSearchResponse, HotelType} from "../../Booking_Server/src/shared/types";
+import {HotelSearchResponse, HotelType, UserType} from "../../Booking_Server/src/shared/types";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
+export const fetchCurrentUser = async (): Promise<UserType> => {
+  const response = await fetch(`${API_BASE_URL}/api/users/me`, {
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Error fetching user");
+  }
+  return response.json();
+};
+
 
 export const register = async (formData: RegisterFormData) => {
   const response = await fetch(`${API_BASE_URL}/api/users/register`, {
@@ -130,11 +142,11 @@ export type SearchParams = {
   adultCount?: string;
   childCount?: string;
   page?: string;
-  // facilities?: string[];
-  // types?: string[];
-  // stars?: string[];
-  // maxPrice?: string;
-  // sortOption?: string;
+  facilities?: string[];
+  types?: string[];
+  stars?: string[];
+  maxPrice?: string;
+  sortOption?: string;
 };
 
 
@@ -149,15 +161,15 @@ export const searchHotels = async (
   queryParams.append("childCount", searchParams.childCount || "");
   queryParams.append("page", searchParams.page || "");
 
-  // queryParams.append("maxPrice", searchParams.maxPrice || "");
-  // queryParams.append("sortOption", searchParams.sortOption || "");
+  queryParams.append("maxPrice", searchParams.maxPrice || "");
+  queryParams.append("sortOption", searchParams.sortOption || "");
 
-  // searchParams.facilities?.forEach((facility) =>
-  //   queryParams.append("facilities", facility)
-  // );
+  searchParams.facilities?.forEach((facility) =>
+    queryParams.append("facilities", facility)
+  );
 
-  // searchParams.types?.forEach((type) => queryParams.append("types", type));
-  // searchParams.stars?.forEach((star) => queryParams.append("stars", star));
+  searchParams.types?.forEach((type) => queryParams.append("types", type));
+  searchParams.stars?.forEach((star) => queryParams.append("stars", star));
 
   const response = await fetch(
     `${API_BASE_URL}/api/hotels/search?${queryParams}`
@@ -165,6 +177,16 @@ export const searchHotels = async (
 
   if (!response.ok) {
     throw new Error("Error fetching hotels");
+  }
+
+  return response.json();
+};
+
+
+export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
+  const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}`);
+  if (!response.ok) {
+    throw new Error("Error fetching Hotels");
   }
 
   return response.json();
